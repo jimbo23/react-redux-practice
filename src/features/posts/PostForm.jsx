@@ -1,6 +1,6 @@
 import { Button, Input, InputWrapper, Space, Text } from '@mantine/core';
 import { useEffect, useState } from 'react';
-import { addPost } from './postsSlice';
+import { postAdded } from './postsSlice';
 import { useDispatch } from 'react-redux';
 
 export const PostForm = () => {
@@ -13,10 +13,10 @@ export const PostForm = () => {
 
   const onSavePost = () => {
     if (title && description) {
-      dispatch(addPost({ title, description, id: Math.random() }));
+      dispatch(postAdded(title, description));
     }
-    setDescription('');
     setTitle('');
+    setDescription('');
   };
 
   useEffect(() => {
