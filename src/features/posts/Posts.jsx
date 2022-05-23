@@ -1,13 +1,16 @@
 import { Card, Text } from '@mantine/core';
 import { useSelector } from 'react-redux';
+import { selectAllPosts } from './postsSlice';
+import { PostForm } from './PostForm';
 
 export const Posts = () => {
-  const state = useSelector(state => state.posts);
+  const posts = useSelector(selectAllPosts);
 
   return (
     <>
-      {state.posts.map(post => (
-        <Card key={post.id} shadow="sm" p="xl">
+      <PostForm />
+      {posts.map(post => (
+        <Card key={post.id} shadow="md" p="xl" radius={20}>
           <Text weight={700} size="lg">
             {post.title}
           </Text>
