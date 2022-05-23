@@ -1,5 +1,6 @@
 import { Counter } from './features/counter/Counter';
 import { Container, Stack } from '@mantine/core';
+import { Posts } from './features/posts/Posts';
 
 export const App = () => {
   return (
@@ -10,7 +11,8 @@ export const App = () => {
       fluid
     >
       <Stack justify="center" align="stretch">
-        <Counter />
+        {/*<Counter />*/}
+        <Posts />
       </Stack>
     </Container>
   );
