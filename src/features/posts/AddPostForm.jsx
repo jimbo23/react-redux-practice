@@ -1,23 +1,38 @@
-import { Button, Input, InputWrapper, Space, Text } from '@mantine/core';
+import {
+  Button,
+  Input,
+  InputWrapper,
+  Select,
+  Space,
+  Text,
+} from '@mantine/core';
 import { useEffect, useState } from 'react';
 import { postAdded } from './postsSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectAllUsers } from '../users/usersSlice';
 
-export const PostForm = () => {
+export const AddPostForm = () => {
+  const users = useSelector(selectAllUsers);
+
   const dispatch = useDispatch();
+
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const [userId, setUserId] = useState('');
 
   const handleTitleChanged = e => setTitle(e.target.value);
   const handleDescriptionChanged = e => setDescription(e.target.value);
 
   const onSavePost = () => {
-    if (title && description) {
-      dispatch(postAdded(title, description));
+    if (title && description && userId) {
+      dispatch(postAdded(title, description, userId));
+      setTitle('');
+      setDescription('');
+      setUserId('');
     }
-    setTitle('');
-    setDescription('');
   };
+
+  const canSave = Boolean(title) && Boolean(description) && Boolean(userId);
 
   useEffect(() => {
     const enterHandler = e => {
@@ -53,7 +68,18 @@ export const PostForm = () => {
           />
         </InputWrapper>
         <Space h={20} />
-        <Button onClick={onSavePost}>Save Post</Button>
+        <Select
+          label="The Author"
+          placeholder="Pick one"
+          data={users.map(user => ({ label: user.name, value: user.id }))}
+          value={userId}
+          onChange={setUserId}
+        />
+        <Space h={20} />
+
+        <Button disabled={!canSave} onClick={onSavePost}>
+          Save Post
+        </Button>
       </form>
     </section>
   );
